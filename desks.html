@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   
+    <title>Object Detection - Desks</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.0.0/p5.js"></script>
+
+  <script src="https://unpkg.com/ml5@latest/dist/ml5.min.js"></script>
+   <link rel="stylesheet" href="styles.css">
+</head>
+<body >
+    <h1 class="btn btn-info heading ">Desks</h1>
+    <button class="btn btn-danger float"><a href="index.html"><p>Back</p></a></button>
+    <h3 class="btn btn-danger" id="status"></h3>
+    <br>
+    <h3 class="btn btn-success" id="msg">There are 5 big objects in the image from which coco ssd model has detected 2 object</h3>
+    <script>
+    img = ""
+    objects = []
+    status = ""
+    function preload(){
+        img = loadImage("desks.jpg")
+    }
+    function setup(){
+        canvas = createCanvas(380,380)
+        canvas.position(430,250)
+        //canvas.center()
+        objDetector = ml5.objectDetector("cocossd",modelLoaded)
+        document.getElementById("status").innerHTML = "Status : Detecting Objects"
+    }
+    function draw(){
+        image(img,0,0,640,420)
+        if(status !=""){
+            for(i = 0;i<objects.length;i++){
+                document.getElementById("status").innerHTML = "Status : Objects Detected"
+                document.getElementById("msg").innerHTML = "There are 5 big objects in the image from which coco ssd model has detected 2 object"
+                fill(255,0,0)
+                percent = floor(objects[i].confidence * 100);
+                text(objects[i].label+" "+percent+"%",objects[i].x + 20,objects[i].y+20)
+                noFill()
+                stroke(255,0,0)
+                rect(objects[i].x,objects[i].y,objects[i].width,objects[i].height)
+            }
+        }
+    }
+    function gotResult(error,results){
+        if(error){
+            console.log(error)
+        }
+        console.log(results)
+        objects = results 
+    }
+    function modelLoaded(){
+        status = "true"
+        objDetector.detect(img,gotResult)
+    }
+    </script>
+</body>
+</html>
