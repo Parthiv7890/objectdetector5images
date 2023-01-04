@@ -1,0 +1,32 @@
+body{
+    background-size: cover;
+    background-position: center;
+}
+.heading{
+font-size: 23px;
+width: 100%;
+margin: 0px;
+}
+
+#status
+{
+font-size: 18px;
+}
+
+canvas{
+    margin-top:30px;
+    border-radius: 25px;
+    box-shadow: 10px 10px 10px grey;
+    animation-name: animation;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+}
+@keyframes animation{
+    from{box-shadow: 10px 10px 10px palevioletred;}
+    to{box-shadow: 10px 10px 10px violet;}
+}
+
+
+#status,#noOfObjects,#start{
+    font-size: 18px;
+}
